@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RNA Invariants Viewer</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e; color: #eee; margin: 0; padding: 20px; }
+        h1 { text-align: center; color: #00d4ff; margin-bottom: 5px; }
+        .section-title { color: #00d4ff; padding: 0 20px; margin-top: 40px;
+            border-bottom: 1px solid #0f3460; padding-bottom: 8px; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px; padding: 20px; }
+        .card { background: #16213e; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; }
+        .card img { width: 100%; height: auto; display: block; }
+        .card-title { padding: 12px; text-align: center; background: #0f3460;
+            font-weight: bold; color: #00d4ff; }
+        .svg-card object { width: 100%; height: 350px; display: block;
+            pointer-events: none; background: #fff; }
+        .fullscreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); display: none; justify-content: center;
+            align-items: center; z-index: 1000; }
+        .fullscreen.active { display: flex; }
+        .fullscreen img, .fullscreen object { max-width: 90%; max-height: 90%; }
+        .fullscreen object { width: 80%; height: 80%; background: #fff; border-radius: 8px; }
+        .fullscreen .close { position: absolute; top: 20px; right: 30px; color: white;
+            font-size: 30px; cursor: pointer; z-index: 1001; }
+    </style>
+</head>
+<body>
+    <h1>RNA Structural Invariants</h1>
+
+    <h2 class="section-title">Structures 2D prédites</h2><div class="gallery"><div class="card svg-card" onclick="openFullscreenSvg('structure_1_mcff.svg')">
+            <object data="structure_1_mcff.svg" type="image/svg+xml" class="svg-preview"></object>
+            <div class="card-title">mcff — structure 1</div>
+        </div><div class="card svg-card" onclick="openFullscreenSvg('structure_2_mcff.svg')">
+            <object data="structure_2_mcff.svg" type="image/svg+xml" class="svg-preview"></object>
+            <div class="card-title">mcff — structure 2</div>
+        </div><div class="card svg-card" onclick="openFullscreenSvg('structure_3_mcff.svg')">
+            <object data="structure_3_mcff.svg" type="image/svg+xml" class="svg-preview"></object>
+            <div class="card-title">mcff — structure 3</div>
+        </div><div class="card svg-card" onclick="openFullscreenSvg('structure_4_mcff.svg')">
+            <object data="structure_4_mcff.svg" type="image/svg+xml" class="svg-preview"></object>
+            <div class="card-title">mcff — structure 4</div>
+        </div><div class="card svg-card" onclick="openFullscreenSvg('structure_5_mcff.svg')">
+            <object data="structure_5_mcff.svg" type="image/svg+xml" class="svg-preview"></object>
+            <div class="card-title">mcff — structure 5</div>
+        </div><div class="card svg-card" onclick="openFullscreenSvg('structure_vienna_mfe.svg')">
+            <object data="structure_vienna_mfe.svg" type="image/svg+xml" class="svg-preview"></object>
+            <div class="card-title">ViennaRNA — MFE</div>
+        </div></div>
+
+    <h2 class="section-title">Profils &amp; Analyse de robustesse</h2>
+    <div class="gallery"><div class="card" onclick="openFullscreen('jaccard_K.png')">
+            <img src="jaccard_K.png" alt="jaccard_K.png">
+            <div class="card-title">jaccard K</div>
+        </div><div class="card" onclick="openFullscreen('jaccard_method.png')">
+            <img src="jaccard_method.png" alt="jaccard_method.png">
+            <div class="card-title">jaccard method</div>
+        </div><div class="card" onclick="openFullscreen('jaccard_w.png')">
+            <img src="jaccard_w.png" alt="jaccard_w.png">
+            <div class="card-title">jaccard w</div>
+        </div><div class="card" onclick="openFullscreen('output_accessibility.png')">
+            <img src="output_accessibility.png" alt="output_accessibility.png">
+            <div class="card-title">output accessibility</div>
+        </div><div class="card" onclick="openFullscreen('output_combined_side.png')">
+            <img src="output_combined_side.png" alt="output_combined_side.png">
+            <div class="card-title">output combined side</div>
+        </div><div class="card" onclick="openFullscreen('output_invariants.png')">
+            <img src="output_invariants.png" alt="output_invariants.png">
+            <div class="card-title">output invariants</div>
+        </div><div class="card" onclick="openFullscreen('output_pairing.png')">
+            <img src="output_pairing.png" alt="output_pairing.png">
+            <div class="card-title">output pairing</div>
+        </div><div class="card" onclick="openFullscreen('output_stacked.png')">
+            <img src="output_stacked.png" alt="output_stacked.png">
+            <div class="card-title">output stacked</div>
+        </div><div class="card" onclick="openFullscreen('robustness_K.png')">
+            <img src="robustness_K.png" alt="robustness_K.png">
+            <div class="card-title">robustness K</div>
+        </div><div class="card" onclick="openFullscreen('robustness_method.png')">
+            <img src="robustness_method.png" alt="robustness_method.png">
+            <div class="card-title">robustness method</div>
+        </div><div class="card" onclick="openFullscreen('robustness_w.png')">
+            <img src="robustness_w.png" alt="robustness_w.png">
+            <div class="card-title">robustness w</div>
+        </div></div>
+
+    <div class="fullscreen" id="fullscreen" onclick="closeFullscreen()">
+        <span class="close">&times;</span>
+        <img id="fullscreen-img" src="" style="display:none">
+        <object id="fullscreen-svg" data="" type="image/svg+xml" style="display:none"></object>
+    </div>
+    <script>
+        function openFullscreen(src) {
+            document.getElementById('fullscreen-svg').style.display = 'none';
+            var img = document.getElementById('fullscreen-img');
+            img.src = src; img.style.display = 'block';
+            document.getElementById('fullscreen').classList.add('active');
+        }
+        function openFullscreenSvg(src) {
+            document.getElementById('fullscreen-img').style.display = 'none';
+            var obj = document.getElementById('fullscreen-svg');
+            obj.data = src; obj.style.display = 'block';
+            document.getElementById('fullscreen').classList.add('active');
+        }
+        function closeFullscreen() {
+            document.getElementById('fullscreen').classList.remove('active');
+        }
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'Escape') closeFullscreen();
+        });
+    </script>
+</body>
+</html>
